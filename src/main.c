@@ -10,6 +10,7 @@
 
 #include "board.h"
 #include "diag/trace.h"
+#include "stm32f3xx_hal.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
