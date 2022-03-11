@@ -2,6 +2,8 @@
  * Error Definitions and Handlers
  */
 
+#include <stdint.h>
+
 typedef uint32_t status_t;
 
 #define STATUS_OK					0x00

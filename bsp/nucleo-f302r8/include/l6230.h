@@ -11,7 +11,7 @@
 #include "error.h"
 
 
-status_t l6230_init(void);
+void BSP_L6230_Init(void);
 
 
 #endif /* INCLUDE_L6230_H_ */
