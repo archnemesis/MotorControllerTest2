@@ -49,6 +49,18 @@ void BSP_SetIndicator(uint8_t led, uint8_t state)
 }
 
 
+void BSP_ToggleIndicator(uint8_t led)
+{
+    switch (led) {
+    case 0:
+        HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+        break;
+    default:
+        break;
+    }
+}
+
+
 /**
  * Forward the timer interrupts to the appropriate application callbacks.
  * @param htim

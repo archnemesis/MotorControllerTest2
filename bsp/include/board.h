@@ -9,6 +9,7 @@
 #define INCLUDE_BOARD_H_
 
 #include <stdint.h>
+#include "stm32f3xx_hal.h"
 
 #define LED1 0
 #define LED2 1
@@ -26,5 +27,6 @@ void BSP_ButtonCallback(void);
 void BSP_StartConversion(uint8_t channel);
 void BSP_SetCommutationTimerPeriod(uint32_t period);
 void BSP_SetIndicator(uint8_t led, uint8_t state);
+void BSP_ToggleIndicator(uint8_t led);
 
 #endif /* INCLUDE_BOARD_H_ */

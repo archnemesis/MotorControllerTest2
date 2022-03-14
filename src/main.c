@@ -11,6 +11,7 @@
 #include "board.h"
 #include "diag/trace.h"
 #include "stm32f3xx_hal.h"
+#include "sixstep.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -22,12 +23,10 @@ main(int argc, char* argv[])
 {
   BSP_Init();
 
+  SIXSTEP_Start();
+
   while (1)
     {
-      BSP_SetIndicator(0, 1);
-      HAL_Delay(1000);
-      BSP_SetIndicator(0, 0);
-      HAL_Delay(1000);
     }
 }
 
