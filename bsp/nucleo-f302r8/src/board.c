@@ -61,6 +61,25 @@ void BSP_ToggleIndicator(uint8_t led)
 }
 
 
+void BSP_SetOutputChannelState(uint32_t channel, uint8_t state, uint32_t pwm)
+{
+	switch (state) {
+	case CHANNEL_STATE_HIGH:
+		HAL_TIMEx_PWMN_Start(&htim1, channel);
+		__HAL_TIM_SET_COMPARE(&htim1, channel, pwm);
+		break;
+	case CHANNEL_STATE_LOW:
+		HAL_TIMEx_PWMN_Start(&htim1, channel);
+		__HAL_TIM_SET_COMPARE(&htim1, channel, 0);
+		break;
+	case CHANNEL_STATE_FLOAT:
+        HAL_TIMEx_PWMN_Stop(&htim1, channel);
+        __HAL_TIM_SET_COMPARE(&htim1, channel, 0);
+        break;
+	}
+}
+
+
 /**
  * Forward the timer interrupts to the appropriate application callbacks.
  * @param htim
