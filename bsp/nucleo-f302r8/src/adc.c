@@ -34,12 +34,47 @@ void BSP_ADC_Init(void)
 		Error_Handler();
 	}
 
-	sConfig.Channel = ADC_CHANNEL_2;
 	sConfig.Rank = ADC_REGULAR_RANK_1;
-	sConfig.SingleDiff = ADC_SINGLE_ENDED;
-	sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-	sConfig.OffsetNumber = ADC_OFFSET_NONE;
+	sConfig.Channel = ADC_CHANNEL_2;
+	sConfig.SamplingTime = ADC_SAMPLETIME_61CYCLES_5;
 	sConfig.Offset = 0;
+	sConfig.OffsetNumber = 0;
+	sConfig.SingleDiff = ADC_SINGLE_ENDED;
+
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+		Error_Handler();
+	}
+
+	sConfig.Channel = ADC_CHANNEL_14;
+	sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
+
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+		Error_Handler();
+	}
+
+	sConfig.Channel = ADC_CHANNEL_8;
+	sConfig.SamplingTime = ADC_SAMPLETIME_61CYCLES_5;
+
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+		Error_Handler();
+	}
+
+	sConfig.Channel = ADC_CHANNEL_9;
+	sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
+
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+		Error_Handler();
+	}
+
+	sConfig.Channel = ADC_CHANNEL_11;
+	sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
+
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+		Error_Handler();
+	}
+
+	sConfig.Channel = ADC_CHANNEL_15;
+	sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
 
 	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 		Error_Handler();
@@ -81,5 +116,15 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef * hadc)
 		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		HAL_GPIO_Init(BEMF2_GPIO_Port, &GPIO_InitStruct);
+
+	    HAL_NVIC_SetPriority(ADC1_IRQn, 0, 0);
+	    HAL_NVIC_EnableIRQ(ADC1_IRQn);
 	}
 }
+
+
+void ADC1_IRQHandler(void)
+{
+	HAL_ADC_IRQHandler(&hadc1);
+}
+

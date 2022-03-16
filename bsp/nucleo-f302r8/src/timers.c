@@ -78,7 +78,7 @@ void BSP_TIM1_Init(void)
 	//
 	htim1.Instance = TIM1;
 	htim1.Init.Prescaler = 0; // TODO: config file
-	htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+	htim1.Init.CounterMode = TIM_COUNTERMODE_CENTERALIGNED1;
 	htim1.Init.Period = 719; // TODO: config file
 	htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim1.Init.RepetitionCounter = 0;
@@ -185,6 +185,10 @@ void BSP_TIM1_Init(void)
     HAL_NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
 
     BSP_TIM1_PostInit();
+
+#ifdef DEBUG
+    __HAL_DBGMCU_FREEZE_TIM1();
+#endif
 }
 
 

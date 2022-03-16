@@ -15,8 +15,6 @@
 
 void BSP_Init(void)
 {
-	SysTick_Config (SystemCoreClock / TIMER_FREQUENCY_HZ);
-
 	BSP_GPIO_Init();
 	BSP_ADC_Init();
 	BSP_L6230_Init();
@@ -43,6 +41,9 @@ void BSP_SetIndicator(uint8_t led, uint8_t state)
 	case 0:
 		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, (state == 1 ? GPIO_PIN_SET : GPIO_PIN_RESET));
 		break;
+	case 1:
+		HAL_GPIO_WritePin(DEBUG1_GPIO_Port, DEBUG1_Pin, (state == 1 ? GPIO_PIN_SET : GPIO_PIN_RESET));
+		break;
 	default:
 		break;
 	}
@@ -55,6 +56,9 @@ void BSP_ToggleIndicator(uint8_t led)
     case 0:
         HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
         break;
+    case 1:
+    	HAL_GPIO_TogglePin(DEBUG1_GPIO_Port, DEBUG1_Pin);
+    	break;
     default:
         break;
     }
@@ -77,6 +81,16 @@ void BSP_SetOutputChannelState(uint32_t channel, uint8_t state, uint32_t pwm)
         __HAL_TIM_SET_COMPARE(&htim1, channel, 0);
         break;
 	}
+}
+
+
+void BSP_SetAnalogInputChannel(uint32_t channel)
+{
+	hadc1.Instance->CR |= ADC_CR_ADSTP;
+	while (hadc1.Instance->CR & ADC_CR_ADSTP);
+	hadc1.Instance->SQR1 &= ~ADC_SQR1_RK(ADC_SQR2_SQ5, 1);
+	hadc1.Instance->SQR1 |= ADC_SQR1_RK(channel, 1);
+	hadc1.Instance->CR |= ADC_CR_ADSTART;
 }
 
 
@@ -103,12 +117,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 	UNUSED(hadc);
 	BSP_ConversionCompleteCallback();
-}
-
-
-void SysTick_Handler(void)
-{
-	HAL_IncTick();
 }
 
 

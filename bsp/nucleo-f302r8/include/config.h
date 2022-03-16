@@ -26,6 +26,8 @@
 #define BEMF2_GPIO_Port GPIOB
 #define LD2_Pin GPIO_PIN_13
 #define LD2_GPIO_Port GPIOB
+#define DEBUG1_Pin GPIO_PIN_12
+#define DEBUG1_GPIO_Port GPIOB
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14

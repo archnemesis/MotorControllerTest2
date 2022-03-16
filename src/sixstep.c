@@ -8,6 +8,7 @@
 #include "sixstep.h"
 #include "board.h"
 #include "timers.h"
+#include "adc.h"
 
 #define PWM_VAL 500
 
@@ -20,7 +21,12 @@ void SIXSTEP_Start(void)
     __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
     __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 0);
 
+    __HAL_TIM_SET_COUNTER(&htim1, 719);
+
     HAL_TIM_Base_Start(&htim1);
+
+    while (HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED) != HAL_OK);
+    HAL_ADC_Start_IT(&hadc1);
 
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
@@ -42,7 +48,7 @@ void SIXSTEP_Stop(void)
 
 void BSP_CommutationTimerCallback(void)
 {
-    BSP_ToggleIndicator(0);
+    BSP_ToggleIndicator(1);
 
     switch (m_step)
     {
@@ -89,4 +95,10 @@ void BSP_CommutationTimerCallback(void)
     }
 
     HAL_TIM_GenerateEvent(&htim1, TIM_EVENTSOURCE_COM);
+}
+
+
+void BSP_ConversionCompleteCallback(void)
+{
+	BSP_ToggleIndicator(0);
 }
